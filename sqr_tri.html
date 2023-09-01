@@ -2,7 +2,7 @@
     <body>
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js'></script>
         <script type='text/javascript'>
-            Decimal.set({precision: 200}); // Plenty for the first 100
+            Decimal.set({precision: 400}); // Plenty for the first 100
             let d_1 = new Decimal(1);
             let d_2 = new Decimal(2);
             let d_3 = new Decimal(3);
@@ -42,9 +42,12 @@
                 if (t_1.eq(s)) return {r: 2, n: n_1, x: x};
                 return {r: 0};
             }
-            for (let i = 1; i <= 100; i++){
+            let googol = new Decimal('10e100');
+            let lim = Decimal.sqrt(googol);
+            for (let i = 1; i <= 200; i++){
                 let n = make_n(i);
                 let x = make_x(i);
+                if(x > lim) break;
                 let v = verify(n, x);
                 document.write(i + ' ' + v.n.d.join('') + ' ' + v.x.d.join('') + '<br>');
             }
