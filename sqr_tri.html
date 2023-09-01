@@ -4,6 +4,17 @@
             body {
               font-family: Verdana, Geneva, Tahoma, sans-serif;
             }
+            .superscript {
+                position: relative;
+                top: -0.5em;
+                font-size: 80%;
+            }
+            #description {
+                font-size: larger;
+            }
+            #results {
+                font-size: smaller;
+            }
             #the10k {
                 width: 80vw;
                 overflow-wrap: break-word;
@@ -34,6 +45,7 @@
         </style>
     </head>
     <body>
+        <div id="description">Showing id, n & x where tringular(n) = square(x), limited to triangular(n) being less than 10<span class="superscript">100</span></div>
         <div id="results"></div>
         <button id="big" onclick="do_10k()">Calculate the 10000th result!</button>
         <div id="the10k"></div>
