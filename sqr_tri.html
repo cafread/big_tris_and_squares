@@ -1,5 +1,42 @@
 <html>
+    <head>
+        <style>
+            body {
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+            #the10k {
+                width: 80vw;
+                overflow-wrap: break-word;
+            }
+            #big {
+                box-shadow:inset 0px -3px 7px 0px #29bbff;
+                background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+                background-color:#2dabf9;
+                border-radius:3px;
+                border:1px solid #0b0e07;
+                display:inline-block;
+                cursor:pointer;
+                color:#ffffff;
+                font-family:Arial;
+                font-size:15px;
+                padding:9px 23px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #263666;
+            }
+            #big :hover {
+                background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+                background-color:#0688fa;
+            }
+            #big :active {
+                position:relative;
+                top:1px;
+            }
+        </style>
+    </head>
     <body>
+        <div id="results"></div>
+        <button id="big" onclick="do_10k()">Calculate the 10000th result!</button>
+        <div id="the10k"></div>
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js'></script>
         <script type='text/javascript'>
             Decimal.set({precision: 400}); // Plenty for the first 100
@@ -44,25 +81,44 @@
             }
             let googol = new Decimal('10e100');
             let lim = Decimal.sqrt(googol);
+            let results = document.getElementById('results');
             for (let i = 1; i <= 200; i++){
                 let n = make_n(i);
                 let x = make_x(i);
                 if(x.gt(lim)) break;
                 let v = verify(n, x);
-                document.write(i + ' ' + v.n.d.join('') + ' ' + v.x.d.join('') + '<br>');
+                let res = document.createElement('div');
+                res.innerHTML = i + ' ' + v.n.d.join('') + ' ' + v.x.d.join('');
+                results.appendChild(res);
             }
-            // 10k case
-            //Decimal.set({precision: 20000});
-            //rt2 = Decimal.sqrt(2);
-            //rt8 = Decimal.sqrt(8); // sqrt(8) is 2 * sqrt(2)
-            //a = Decimal.sub(d_3, rt8);
-            //b = Decimal.add(d_3, rt8);
-            //c = Decimal.mul(d_4, rt2);
-            //let i = new Decimal(10000);
-            //let n = make_n(i);
-            //let x = make_x(i);
-            //let v = verify(n, x);
-            //document.write(10000 + ' ' + v.n.d.join('') + ' ' + v.x.d.join(''));
+            // Just a bit of fun to let the 10k case show up
+            async function do_10k() {
+                let btn = document.getElementById('big');
+                btn.innerText = 'Oh lawd, he comin!';
+                const result = await resolveAfter2();
+            }
+            function resolveAfter2() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        do_10k_a();
+                        resolve('resolved');
+                    }, 2);
+                });
+            }
+            function do_10k_a(){
+                Decimal.set({precision: 16000});
+                rt2 = Decimal.sqrt(2);
+                rt8 = Decimal.sqrt(8); // sqrt(8) is 2 * sqrt(2)
+                a = Decimal.sub(d_3, rt8);
+                b = Decimal.add(d_3, rt8);
+                c = Decimal.mul(d_4, rt2);
+                let i = new Decimal(10000);
+                let n = make_n(i);
+                let x = make_x(i);
+                let v = verify(n, x);
+                let trg = document.getElementById('the10k');
+                trg.innerHTML = 10000 + ' ' + v.n.d.join('') + ' ' + v.x.d.join('');
+            }
         </script>
     </body>
 </html>

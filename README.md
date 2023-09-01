@@ -7,6 +7,6 @@ This generates results, until the resulting triangular number would be over a go
 
 Thanks to decimal.js for handling big numbers and Wolfram Alpha for hints around the algebra
 
-Code to generate the 10,000th one included, which takes a few seconds
+Button to generate the 10,000th one included, which takes a few seconds
 
 Link to Demo: https://cafread.github.io/big_tris_and_squares/sqr_tri.html
