@@ -47,7 +47,7 @@
             for (let i = 1; i <= 200; i++){
                 let n = make_n(i);
                 let x = make_x(i);
-                if(x > lim) break;
+                if(x.gt(lim)) break;
                 let v = verify(n, x);
                 document.write(i + ' ' + v.n.d.join('') + ' ' + v.x.d.join('') + '<br>');
             }
