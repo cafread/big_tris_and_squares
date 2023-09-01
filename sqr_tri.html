@@ -1,0 +1,65 @@
+<html>
+    <body>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js'></script>
+        <script type='text/javascript'>
+            Decimal.set({precision: 200}); // Plenty for the first 100
+            let d_1 = new Decimal(1);
+            let d_2 = new Decimal(2);
+            let d_3 = new Decimal(3);
+            let d_4 = new Decimal(4);
+            let rt2 = Decimal.sqrt(2);
+            let rt8 = Decimal.sqrt(8); // sqrt(8) is 2 * sqrt(2)
+            let a = Decimal.sub(d_3, rt8);
+            let b = Decimal.add(d_3, rt8);
+            let c = Decimal.mul(d_4, rt2);
+            function make_n(i) {
+                let m = new Decimal(i);
+                let am = Decimal.pow(a, m);
+                let bm = Decimal.pow(b, m);
+                let raw = Decimal.div(Decimal.add(Decimal.add(am, bm), d_2), d_4);
+                return Decimal.sub(Decimal.floor(raw), d_1);
+            }
+            function make_x(i) {
+                let m = new Decimal(i);
+                let am = Decimal.pow(a, m);
+                let bm = Decimal.pow(b, m);
+                let raw = Decimal.div(Decimal.add(Decimal.sub(am, bm), d_2), c);
+                return Decimal.ceil(Decimal.abs(raw));
+            }
+            function make_t(n) {
+                return Decimal.div(Decimal.mul(n, Decimal.add(n, d_1)), d_2);
+            }
+            function make_s(x) {
+                return Decimal.pow(x, d_2);
+            }
+            function verify(n, x) {
+                let t = make_t(n);
+                let s = make_s(x);
+                if (t.eq(s)) return {r: 1, n: n, x: x};
+                // Sometimes n is off by one
+                let n_1 = Decimal.add(n, d_1); 
+                let t_1 = make_t(n_1);
+                if (t_1.eq(s)) return {r: 2, n: n_1, x: x};
+                return {r: 0};
+            }
+            for (let i = 1; i <= 100; i++){
+                let n = make_n(i);
+                let x = make_x(i);
+                let v = verify(n, x);
+                document.write(i + ' ' + v.n.d.join('') + ' ' + v.x.d.join('') + '<br>');
+            }
+            // 10k case
+            //Decimal.set({precision: 20000});
+            //rt2 = Decimal.sqrt(2);
+            //rt8 = Decimal.sqrt(8); // sqrt(8) is 2 * sqrt(2)
+            //a = Decimal.sub(d_3, rt8);
+            //b = Decimal.add(d_3, rt8);
+            //c = Decimal.mul(d_4, rt2);
+            //let i = new Decimal(10000);
+            //let n = make_n(i);
+            //let x = make_x(i);
+            //let v = verify(n, x);
+            //document.write(10000 + ' ' + v.n.d.join('') + ' ' + v.x.d.join(''));
+        </script>
+    </body>
+</html>
